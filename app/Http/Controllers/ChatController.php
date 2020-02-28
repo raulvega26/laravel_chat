@@ -8,8 +8,7 @@ class ChatController extends Controller
 {
     
     public function checkExistUser(Request $request) {
-
-    	echo $request->email;
+    	
     	return view('chat');
     }
     
