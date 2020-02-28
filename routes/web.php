@@ -11,7 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::match(['get', 'post'], '/', function() {
+	return view('welcome');
 });
 
+Route::post('chat', 'ChatController@checkExistUser');
+
+// Route::post($uri, $callback);

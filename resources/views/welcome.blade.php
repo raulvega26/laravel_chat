@@ -33,19 +33,15 @@
 
             <div class="content">
                 <div class="prueba">
-                    <form>
+                    <form method="post" action="/chat">
+                    	{{ csrf_field() }}
                     	<table id="table_form">
-                    		
-							<span class="form-group">
-								<tr><td class="nombre_etiqueta"><label for="exampleInputEmail1">Nombre de usuario</label></td>
-								<td><input type="email" class="form-control" id="exampleInputEmail1" placeholder="Escribe tu nombre usuario"></td></tr>
-								
-							</span>
-							<span class="form-group">
-								<tr><td class="nombre_etiqueta"><label for="exampleInputPassword1">Foto</label></td>
-								<td><input type="file" class="form-control" id="exampleInputPassword1"></tr>
+							<tr><td class="nombre_etiqueta"><label for="exampleInputEmail1">Nombre de usuario</label></td>
+							<td><input type="email" class="form-control" id="email" name="email" placeholder="Escribe tu nombre usuario"></td></tr>
+							
+							<tr><td class="nombre_etiqueta"><label for="exampleInputPassword1">Foto</label></td>
+							<td><input type="file" class="form-control" id="photo" name="photo"></tr>
 							<tr><td></td><td><button type="submit" class="btn btn-primary">Iniciar sesión</button></td></tr>
-							</span>
 						</table>
 					</form>
                 </div>
