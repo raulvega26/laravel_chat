@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" /> 
     </head>
     <body>
-
+        {{session('email')}}
         Página principal del chat
     </body>
 </html>

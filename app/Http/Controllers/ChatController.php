@@ -10,6 +10,8 @@ class ChatController extends Controller
     
     public function checkExistUser(Request $request) {
 
+    	$request->session()->put(['email'=>$request->email]);
+
     	$filename = "file.txt";
     	$user_exist = false;
 
