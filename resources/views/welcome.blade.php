@@ -37,7 +37,7 @@
                     	{{ csrf_field() }}
                     	<table id="table_form">
 							<tr><td class="nombre_etiqueta"><label for="exampleInputEmail1">Nombre de usuario</label></td>
-							<td><input type="email" class="form-control" id="email" name="email" placeholder="Escribe tu nombre usuario"></td></tr>
+							<td><input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Escribe tu nombre usuario"></td></tr>
 							
 							<tr><td class="nombre_etiqueta"><label for="exampleInputPassword1">Foto</label></td>
 							<td><input type="file" class="form-control" id="photo" name="photo"></tr>
