@@ -42,6 +42,13 @@
 							<tr><td class="nombre_etiqueta"><label for="exampleInputPassword1">Foto</label></td>
 							<td><input type="file" class="form-control" id="photo" name="photo"></tr>
 							<tr><td></td><td><button type="submit" class="btn btn-primary">Iniciar sesión</button></td></tr>
+							<tr><td></td><td>
+							@php 
+								if(isset($data)) {
+									echo $data; 
+								}
+							@endphp
+							</td></tr>
 						</table>
 					</form>
                 </div>

@@ -10,8 +10,6 @@ class ChatController extends Controller
     
     public function checkExistUser(Request $request) {
 
-    	$request->session()->put(['email'=>$request->email]);
-
     	$filename = "file.txt";
     	$user_exist = false;
 
@@ -33,10 +31,16 @@ class ChatController extends Controller
 
     	if (!$user_exist && empty($array_decoded)) {
     		Serializer::save(json_encode(array(1 => $request->email)), $filename);
+    		$request->session()->put(['email'=>$request->email]);
     	} else if (!$user_exist){
     		$new_array[($last_iter+1)] = $request->email;
     		Serializer::save(json_encode($new_array), $filename);
+    		$request->session()->put(['email'=>$request->email]);
     	} 
+
+    	if ($user_exist) {
+    		return view('/welcome',['data'=>'el usuario que intenta acceder ya esta logeado!']);
+    	}
    		
     	// devolver a la vista el usuario actual "email" para mantener la sesión?
     	return view('chat');
