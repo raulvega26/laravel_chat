@@ -30,10 +30,10 @@
                     @endauth
                 </div>
             @endif
-
+            {{session('email')}}
             <div class="content">
                 <div class="prueba">
-                    <form method="post" action="/chat">
+                   <form method="post" action="/chat">
                     	{{ csrf_field() }}
                     	<table id="table_form">
 							<tr><td class="nombre_etiqueta"><label for="exampleInputEmail1">Nombre de usuario</label></td>

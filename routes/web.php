@@ -15,6 +15,8 @@ Route::match(['get', 'post'], '/', function() {
 	return view('welcome');
 });
 
-Route::post('chat', 'ChatController@checkExistUser');
+Route::match(['get', 'post'],'chat', 'ChatController@checkExistUser')->name('chat');
+
+Route::match(['get','post'],'logout', 'ChatController@logoutUser')->name('logout');
 
 // Route::post($uri, $callback);

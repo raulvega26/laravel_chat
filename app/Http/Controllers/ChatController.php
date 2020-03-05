@@ -17,11 +17,16 @@ class ChatController extends Controller
     	$array_decoded = json_decode($array_unserializer);
     	$last_iter = 0;
     	$new_array = [];
+    	$email = $request->email;
+
+    	if (empty($email) || is_null($email)) {
+    		$email = session('email');
+    	}
 
     	if (!empty($array_decoded)) {
     	
 	    	foreach($array_decoded as $key => $value) {
-	    		if ($value == $request->email) {
+	    		if ($value == $email) {
 	    			$user_exist = true;
 	    		}
 	    		$last_iter = $key;
@@ -30,20 +35,43 @@ class ChatController extends Controller
     	}
 
     	if (!$user_exist && empty($array_decoded)) {
-    		Serializer::save(json_encode(array(1 => $request->email)), $filename);
-    		$request->session()->put(['email'=>$request->email]);
+    		Serializer::save(json_encode(array(1 => $email)), $filename);
+    		session(['email' => $email]);
     	} else if (!$user_exist){
-    		$new_array[($last_iter+1)] = $request->email;
+    		$new_array[($last_iter+1)] = $email;
     		Serializer::save(json_encode($new_array), $filename);
-    		$request->session()->put(['email'=>$request->email]);
+    		session(['email' => $email]);
     	} 
 
-    	if ($user_exist) {
+    	if ($user_exist && is_null(session('email'))) {
     		return view('/welcome',['data'=>'el usuario que intenta acceder ya esta logeado!']);
     	}
    		
     	// devolver a la vista el usuario actual "email" para mantener la sesión?
     	return view('chat');
+    }
+
+    public function logoutUser(Request $request) {
+    	$filename = "file.txt";
+
+    	$email = session('email');
+
+    	$array_unserializer = Serializer::restore($filename);
+    	$array_decoded = json_decode($array_unserializer);
+    	$new_array = [];
+
+    	foreach($array_decoded as $key => $value) {
+
+    		if ($value != $email) {
+    			$new_array[$key] = $value;
+    		} else {
+    			$request->session()->forget('email');
+    		}
+    	}
+
+    	Serializer::save(json_encode($new_array), $filename);
+
+    	return view('/welcome');
     }
     
 }
