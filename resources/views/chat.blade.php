@@ -19,6 +19,7 @@
 		
         <!-- Styles -->
         <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" /> 
+
     </head>
     <body>
         <header>
@@ -26,6 +27,26 @@
             <a href="{{route('logout')}}">Log out</a>
         </header>
         
-        Página principal del chat
+        <h2 align="center">Chat</h2>
+        <form>
+            <table align="center" style="border:3px solid;">
+                <tr style="height: 500px;">
+                    <td style="width: 200px;  border:1px solid;">
+                        <table style="margin:-10px;">
+                            @foreach ($users as $user)
+                                @if (!is_null($user))
+                                    <tr><td></td><td style="border:1px solid;">{{ $user }}</td></tr>
+                                @endif
+                            @endforeach
+                                
+                        </table>
+                    </td>
+                    <td style="width:600px; border:1px solid;"></td>
+                </tr>
+                <tr style="height: 60px;"><td style="border:1px solid;"></td><td style="border:1px solid;"><textarea style="height: 60px; width:500px; margin:-10px"></textarea><input type="button" style="margin-left:40px; margin-top:20px;" value="Enviar"></td></tr>
+            </table>
+        </form>
+
+
     </body>
 </html>

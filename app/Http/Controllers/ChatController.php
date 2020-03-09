@@ -43,12 +43,14 @@ class ChatController extends Controller
     		session(['email' => $email]);
     	} 
 
+    	
     	if ($user_exist && is_null(session('email'))) {
-    		return view('/welcome',['data'=>'el usuario que intenta acceder ya esta logeado!']);
+    		return view('/welcome',['data'=>'el usuario que intenta acceder ya esta logeado,<br> estas intentando acceder a una zona restringida!']);
     	}
    		
-    	// devolver a la vista el usuario actual "email" para mantener la sesión?
-    	return view('chat');
+    	// devolvemos usuarios logeads, según el txt
+    	
+    	return view('chat',['users'=> $new_array]);
     }
 
     public function logoutUser(Request $request) {

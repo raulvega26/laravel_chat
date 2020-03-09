@@ -17,23 +17,25 @@
     <body>
 		
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
+            @if ($message = Session::get('success'))
+                <strong>{{ $message }}</strong>  <!-- muestra el mensaje flash en caso de ser cierto-->
+            @endif
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
+            @if (count($errors) > 0)
+                <div>
+                    <strong>Uppss!</strong> Hay algunos problemas en la subida.<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
+
             {{session('email')}}
             <div class="content">
                 <div class="prueba">
-                   <form method="post" action="/chat">
+                   <form method="post" action="{{ route('chat')}}">
                     	{{ csrf_field() }}
                     	<table id="table_form">
 							<tr><td class="nombre_etiqueta"><label for="exampleInputEmail1">Nombre de usuario</label></td>
@@ -41,6 +43,7 @@
 							
 							<tr><td class="nombre_etiqueta"><label for="exampleInputPassword1">Foto</label></td>
 							<td><input type="file" class="form-control" id="photo" name="photo"></tr>
+                            <tr><td></td><td><small id="fileHelp">El tamaño del fichero no debe ser superior a 2 MB.</small></td></tr>
 							<tr><td></td><td><button type="submit" class="btn btn-primary">Iniciar sesión</button></td></tr>
 							<tr><td></td><td>
 							@php 
