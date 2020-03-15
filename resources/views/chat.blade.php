@@ -35,7 +35,7 @@
                         <table style="margin:-10px;">
                             @foreach ($users as $user)
                                 @if (!is_null($user))
-                                    <tr><td></td><td style="border:1px solid;">{{ $user }}</td></tr>
+                                    <tr><td><img style="height:80px !important; width: 80px !important;" src="{{ url('storage/logos/'.$user[1]) }}"></td><td style="border:1px solid;">{{ $user[0] }}</td></tr>
                                 @endif
                             @endforeach
                                 

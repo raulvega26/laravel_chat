@@ -7,8 +7,25 @@ use App\Helpers\Serializer;
 
 class ChatController extends Controller
 {
-    
+
     public function checkExistUser(Request $request) {
+
+    	/* Picture */
+
+    	if (isset(request()->photo)) {
+    		$request->validate(['photo' => 'required|file|max:1024']);
+
+	    	$imagename = request()->photo->getClientOriginalName();
+
+	    	$request->photo->storeAs('public/logos', $imagename);
+
+    	} else {
+    		$imagename = "default.png";
+    	}
+
+    	
+    	/* End Picture */
+
 
     	$filename = "file.txt";
     	$user_exist = false;
@@ -26,7 +43,7 @@ class ChatController extends Controller
     	if (!empty($array_decoded)) {
     	
 	    	foreach($array_decoded as $key => $value) {
-	    		if ($value == $email) {
+	    		if ($value[0] == $email) {
 	    			$user_exist = true;
 	    		}
 	    		$last_iter = $key;
@@ -35,10 +52,11 @@ class ChatController extends Controller
     	}
 
     	if (!$user_exist && empty($array_decoded)) {
-    		Serializer::save(json_encode(array(1 => $email)), $filename);
+    		Serializer::save(json_encode(array(1 => [$email, $imagename])), $filename);
     		session(['email' => $email]);
+    		$new_array[$last_iter] = [$email, $imagename];
     	} else if (!$user_exist){
-    		$new_array[($last_iter+1)] = $email;
+    		$new_array[($last_iter+1)] = [$email, $imagename];
     		Serializer::save(json_encode($new_array), $filename);
     		session(['email' => $email]);
     	} 
@@ -53,6 +71,8 @@ class ChatController extends Controller
     	return view('chat',['users'=> $new_array]);
     }
 
+
+
     public function logoutUser(Request $request) {
     	$filename = "file.txt";
 
@@ -64,7 +84,7 @@ class ChatController extends Controller
 
     	foreach($array_decoded as $key => $value) {
 
-    		if ($value != $email) {
+    		if ($value[0] != $email) {
     			$new_array[$key] = $value;
     		} else {
     			$request->session()->forget('email');
@@ -78,36 +98,3 @@ class ChatController extends Controller
     
 }
 
-
-
-/*
-
-Comprueba que existe un usuario (email) en el fichero que uso como base de datos, sino existe lo guarda
-
-    	if (!file_exists($filename)) {
-    		$file = fopen($filename, "w");
-			fwrite( $file, $request->email."\n" );
-    	} else {
-
-    		$file = fopen($filename, "a+");
-    		$user_exist = false;
-    		do {
-    			$line = trim(fgets($file));
-
-    			if (strcmp($line, $request->email) == 0) {
-    				// se revisa y se mete en un flag que el usuario existe. Sino se tendra que guardar en el archivo
-    				$user_exist = true;
-    			}
-
-    		}while (!feof($file));
-
-    		if (!$user_exist) {
-    			// se ha de guardar el nuevo usuario en el fichero en la última posicion del fichero
-    			$file = fopen($filename, "a+");
-    			fwrite($file, $request->email."\n");
-    		} 
-    	}
-    	
-    	fclose( $file );
-
-    	*/
