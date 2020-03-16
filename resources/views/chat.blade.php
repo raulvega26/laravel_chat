@@ -31,11 +31,11 @@
         <form>
             <table align="center" style="border:3px solid;">
                 <tr style="height: 500px;">
-                    <td style="width: 200px;  border:1px solid;">
-                        <table style="margin:-10px;">
+                    <td style="width: 200px; border:1px solid;">
+                        <table style="margin-left:-10px !important; margin:-5px; margin-top:-240px !important; ">
                             @foreach ($users as $user)
                                 @if (!is_null($user))
-                                    <tr><td><img style="height:80px !important; width: 80px !important;" src="{{ url('storage/logos/'.$user[1]) }}"></td><td style="border:1px solid;">{{ $user[0] }}</td></tr>
+                                    <tr><td><img style="height:35px !important; width: 30px !important; margin-top:-10px !important; margin-bottom:-10px !important;" src="{{ url('storage/logos/'.$user[1]) }}"></td><td style="border:1px solid;">{{ $user[0] }}</td></tr>
                                 @endif
                             @endforeach
                                 
