@@ -95,6 +95,35 @@ class ChatController extends Controller
 
     	return view('/welcome');
     }
+
+    public function sendMessage(Request $request) {
+
+    	$filename = "chat.txt";
+
+    	/* chat */
+
+    	$new_array = [];
+
+    	array_push($new_array, [session('email'), date(time()), $request->text]);
+    	Serializer::save(json_encode($new_array), $filename);
+
+    	$array_unserializer = Serializer::restore($filename);
+    	$array_decoded_chat = json_decode($array_unserializer);
+
+    	/* end chat */
+
+    	$filename = "file.txt";
+
+    	/* users */
+
+    	$array_unserializer = Serializer::restore($filename);
+    	$array_decoded_users = json_decode($array_unserializer);
+
+    	/* end users */
+
+    	return view('chat', ['array_text' => $array_decoded_chat], ['users' => $array_decoded_users]);
+
+    }
     
 }
 

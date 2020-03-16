@@ -19,4 +19,6 @@ Route::match(['get', 'post'],'chat', 'ChatController@checkExistUser')->name('cha
 
 Route::match(['get','post'],'logout', 'ChatController@logoutUser')->name('logout');
 
+Route::match(['get','post'],'message','ChatController@sendMessage')->name('message');
+
 // Route::post($uri, $callback);
