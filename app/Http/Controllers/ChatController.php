@@ -63,12 +63,21 @@ class ChatController extends Controller
     	if ($user_exist && is_null(session('email'))) {
     		return view('/welcome',['data'=>'el usuario que intenta acceder ya esta logeado,<br> estas intentando acceder a una zona restringida!']);
     	} else if(!$user_exist && is_null(session('email'))) {
-    		return view('/welcome',['data'=>'estas intentando acceer a una zona restringida sin iniciar sesión!']);
+    		return view('/welcome',['data'=>'estas intentando acceder a una zona restringida sin iniciar sesión!']);
     	}
    		
+    	/* chat */
+
+    	$filename = "chat.txt";
+
+    	$array_unserializer = Serializer::restore($filename);
+    	$array_decoded_chat = json_decode($array_unserializer);
+
+    	/* end chat */
+
     	// devolvemos usuarios logeads, según el txt
     	
-    	return view('chat',['users'=> $new_array]);
+    	return view('chat',['array_text' => $array_decoded_chat], ['users'=> $new_array]);
     }
 
 
@@ -102,10 +111,16 @@ class ChatController extends Controller
 
     	/* chat */
 
-    	$new_array = [];
+    	if (!is_null($request->text) && !empty($request->text)) {
 
-    	array_push($new_array, [session('email'), date(time()), $request->text]);
-    	Serializer::save(json_encode($new_array), $filename);
+	    	$array_unserializer = Serializer::restore($filename);
+	    	$array_decoded_chat = json_decode($array_unserializer);
+
+	    	array_push($array_decoded_chat, [session('email'), date(time()), $request->text]);
+	    	// array_push($new_array, [session('email'), date(time()), $request->text]);
+	    	Serializer::save(json_encode($array_decoded_chat), $filename);
+
+	    }
 
     	$array_unserializer = Serializer::restore($filename);
     	$array_decoded_chat = json_decode($array_unserializer);
