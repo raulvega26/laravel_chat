@@ -26,7 +26,6 @@ class ChatController extends Controller
     	
     	/* End Picture */
 
-
     	$filename = "file.txt";
     	$user_exist = false;
 
@@ -52,18 +51,19 @@ class ChatController extends Controller
     	}
 
     	if (!$user_exist && empty($array_decoded)) {
-    		Serializer::save(json_encode(array(1 => [$email, $imagename])), $filename);
+    		Serializer::save(json_encode(array(1 => [$email, $imagename, time()])), $filename);
     		session(['email' => $email]);
-    		$new_array[$last_iter] = [$email, $imagename];
-    	} else if (!$user_exist){
-    		$new_array[($last_iter+1)] = [$email, $imagename];
+    		$new_array[$last_iter] = [$email, $imagename, time()];
+    	} else if (!$user_exist) {
+    		$new_array[($last_iter+1)] = [$email, $imagename, time()];
     		Serializer::save(json_encode($new_array), $filename);
     		session(['email' => $email]);
     	} 
 
-    	
     	if ($user_exist && is_null(session('email'))) {
     		return view('/welcome',['data'=>'el usuario que intenta acceder ya esta logeado,<br> estas intentando acceder a una zona restringida!']);
+    	} else if(!$user_exist && is_null(session('email'))) {
+    		return view('/welcome',['data'=>'estas intentando acceer a una zona restringida sin iniciar sesión!']);
     	}
    		
     	// devolvemos usuarios logeads, según el txt
